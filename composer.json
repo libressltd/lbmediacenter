@@ -1,0 +1,16 @@
+{
+    "name": "libressltd/lbmediacenter",
+    "description": "Media center",
+    "type": "library",
+    "require": {
+        "intervention/image": "^2.3"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "LIBRE SS Ltd",
+            "email": "contact@libreteam.com"
+        }
+    ],
+    "minimum-stability": "dev"
+}
