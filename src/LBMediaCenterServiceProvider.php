@@ -31,7 +31,7 @@ class LBMediaCenterServiceProvider extends ServiceProvider
     public function register()
     {
         include __DIR__.'/routes.php';
-        $this->app->make('LIBRESSLtd\LBMediaCenter\Controllers\RoleController');
+        $this->app->make('LIBRESSLtd\LBMediaCenter\Controllers\MediaController');
         // $this->app->make('LIBRESSLtd\DeepPermission\Controllers\PermissionGroupController');
         // $this->app->make('LIBRESSLtd\DeepPermission\Controllers\PermissionController');
         // $this->app->make('LIBRESSLtd\DeepPermission\Controllers\UserRoleController');
