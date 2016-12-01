@@ -42,12 +42,11 @@ class MediaController extends Controller
     {
         if (Input::file('file')->isValid())
         {
-            Media::saveFile(Input::file('file'));
-            return "Upload success";
+            return array("code" => 200, "data" => Media::saveFile(Input::file('file')));
         }
         else
         {
-            return "Can't upload";
+            return array("code" => 500, "description" => "Upload file failed");
         }
     }
 
