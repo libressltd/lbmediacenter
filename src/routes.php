@@ -1,8 +1,9 @@
 <?php
 
 Route::group(['middleware' => ['web', 'auth']], function () {
-	Route::resource("lbmedia", "libressltd\lbmediacenter\controllers\MediaController");
+	Route::post("lbmedia", "libressltd\lbmediacenter\controllers\MediaController@store");
 });
+Route::get("lbmedia/{media_id}", "libressltd\lbmediacenter\controllers\MediaController@show");
 
 
 Route::group(['middleware' => ['api', 'auth:api']], function () {
