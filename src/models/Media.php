@@ -11,7 +11,7 @@ class Media extends Model
 {
 	use Uuid32ModelTrait;
 
-    static function saveFile($file)
+    static function saveFile($file, $is_base64)
     {
     	$media = new Media;
     	$media->mime_type = $file->getMimeType();
@@ -19,7 +19,15 @@ class Media extends Model
     	$media->size = $file->getSize();
     	$media->save();
 
-    	Storage::putFileAs('media', $file, $media->id);
+        if ($is_base64)
+        {
+            $data = base64_decode($file->getContents());
+            Storage::putFileAs('media', $data, $media->id);
+        }
+        else
+        {
+            Storage::putFileAs('media', $file, $media->id);
+        }
         return $media;
     }
 
