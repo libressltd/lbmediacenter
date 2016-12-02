@@ -13,16 +13,15 @@ class Media extends Model
 
     static function saveFile($file, $is_base64)
     {
-    	$media = new Media;
-    	$media->mime_type = $file->getMimeType();
-    	$media->original_extension = $file->getClientOriginalExtension();
-    	$media->size = $file->getSize();
-    	$media->save();
-
+        $media = new Media;
+        $media->mime_type = $file->getMimeType();
+        $media->original_extension = $file->getClientOriginalExtension();
+        $media->size = $file->getSize();
+        $media->save();
         if ($is_base64)
         {
-            $data = base64_decode($file->getContents());
-            Storage::putFileAs('media', $data, $media->id);
+            $data = base64_decode(file_get_contents($file));
+            Storage::put('media/'.$media->id, $data);
         }
         else
         {
