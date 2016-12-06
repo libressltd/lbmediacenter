@@ -16,6 +16,8 @@ class Media extends Model
         $media = new Media;
         $media->mime_type = $file->getMimeType();
         $media->original_extension = $file->getClientOriginalExtension();
+        $media->original_name = $file->getClientOriginalName();
+
         $media->size = $file->getSize();
         $media->save();
         if ($is_base64)
