@@ -43,6 +43,11 @@ class Media extends Model
         return url("lbmedia/$this->id");
     }
 
+    public function path()
+    {
+        return storage_path('app/media/'.$this->id);
+    }
+
     static public function boot()
     {
         Media::bootUuid32ModelTrait();
