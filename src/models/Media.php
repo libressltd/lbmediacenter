@@ -11,7 +11,7 @@ class Media extends Model
 {
 	use Uuid32ModelTrait;
 
-    static function saveFile($file, $is_base64)
+    static function saveFile($file, $is_base64 = false)
     {
         $media = new Media;
         $media->mime_type = $file->getMimeType();
