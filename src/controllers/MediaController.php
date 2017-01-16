@@ -40,9 +40,9 @@ class MediaController extends Controller
      */
     public function store(Request $request)
     {
-        if ($request->has("file") && Input::file('file')->isValid())
+        if ($request->hasFile("file"))
         {
-            return array("code" => 200, "data" => Media::saveFile(Input::file('file'), $request->header('Content-Transfer-Encoding') == "base64"));
+            return array("code" => 200, "data" => Media::saveFile($request->file, $request->header('Content-Transfer-Encoding') == "base64"));
         }
         else
         {
