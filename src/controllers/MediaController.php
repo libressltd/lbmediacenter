@@ -61,7 +61,7 @@ class MediaController extends Controller
      */
     public function show($id)
     {
-        return Media::file($id);
+        return Media::file($id, request()->width, request()->height, request()->style);
     }
 
     /**
