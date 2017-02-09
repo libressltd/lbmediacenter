@@ -19,7 +19,10 @@ class MediaController extends Controller
      */
     public function index()
     {
-        
+        foreach (Media::all() as $media)
+        {
+            $media->update_image_info();
+        }
     }
 
     /**
