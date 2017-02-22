@@ -3,7 +3,9 @@
     "description": "Media center",
     "type": "library",
     "require": {
-        "intervention/image": "^2.3"
+        "intervention/image": "*",
+        "guzzlehttp/guzzle": "*",
+        "alsofronie/eloquent-uuid": "*"
     },
     "license": "MIT",
     "authors": [

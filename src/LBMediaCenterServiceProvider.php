@@ -15,11 +15,11 @@ class LBMediaCenterServiceProvider extends ServiceProvider
     {
         $this->loadViewsFrom(__DIR__.'/views', 'mc');
 		$this->publishes([
-	        __DIR__.'/views' => base_path('resources/views/libressltd/lbmediacenter'),
+	        // __DIR__.'/views' => base_path('resources/views/libressltd/lbmediacenter'),
 	        __DIR__.'/migrations' => base_path('database/migrations'),
 	        __DIR__.'/models' => base_path('app/Models'),
-	        __DIR__.'/requests' => base_path('app/Http/Requests/LBMediaCenter'),
-	        __DIR__.'/config' => base_path('config'),
+	        // __DIR__.'/requests' => base_path('app/Http/Requests/LBMediaCenter'),
+	        // __DIR__.'/config' => base_path('config'),
 	    ], 'lbmediacenter');
     }
 

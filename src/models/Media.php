@@ -34,6 +34,23 @@ class Media extends Model
         return $media;
     }
 
+    static function download_file($url)
+    {
+        $client = new \GuzzleHttp\Client();
+        $res = $client->request('GET', $url);
+        $body = $res->getBody();
+
+        $media = new Media;
+        $media->original_extension = "";
+        $media->original_name = "";
+        $media->mime_type = $res->getHeader("Content-Type")[0];
+        $media->size = $res->getHeader("Content-Length")[0];
+        $media->save();
+
+        Storage::put('media/'.$media->id, $body);
+        $media->update_image_info();
+    }
+
     public function update_image_info()
     {
         $img = Image::make($this->path());
@@ -65,13 +82,13 @@ class Media extends Model
                 else
                 {
                     $img = Image::make($media->path());
+                    $needed_ratio = floatval($width) / floatval($height);
+                    $current_ratio = floatval($img->width()) / floatval($img->height());
+
+                    $cutted_width;
+                    $cutted_height;
                     if ($stype = "scale_to_fill")
                     {
-                        $needed_ratio = floatval($width) / floatval($height);
-                        $current_ratio = floatval($img->width()) / floatval($img->height());
-
-                        $cutted_width;
-                        $cutted_height;
                         if ($needed_ratio > $current_ratio)
                         {
                             $cutted_width = $img->width();
@@ -82,35 +99,52 @@ class Media extends Model
                             $cutted_height = $img->height();
                             $cutted_width = intval($cutted_height * $needed_ratio);
                         }
-                        $img->crop($cutted_width, $cutted_height);
-                        $img->resize($width, $height);
-
-                        $new_media = new Media;
-                        $new_media->mime_type = $media->mime_type;
-                        $new_media->original_extension = $media->original_extension;
-                        $new_media->original_name = $media->original_name;
-
-                        $new_media->width = $width;
-                        $new_media->height = $height;
-                        $new_media->scale_type = $style;
-
-                        $new_media->original_id = $media->id;
-
-                        $new_media->size = $img->filesize();
-                        $new_media->save();
-
-                        $img->save(storage_path('app/media/'.$new_media->id));
-
-                        return response()->file(storage_path('app/media/'.$new_media->id));
                     }
+                    else if ($stype = "scale_to_fit")
+                    {
+                        if ($needed_ratio < $current_ratio)
+                        {
+                            $cutted_width = $img->width();
+                            $cutted_height = intval($cutted_width / $needed_ratio);
+                        }
+                        else
+                        {
+                            $cutted_height = $img->height();
+                            $cutted_width = intval($cutted_height * $needed_ratio);
+                        }
+                    }
+                    $img->crop($cutted_width, $cutted_height);
+                    $img->resize($width, $height);
+
+                    $new_media = new Media;
+                    $new_media->mime_type = $media->mime_type;
+                    $new_media->original_extension = $media->original_extension;
+                    $new_media->original_name = $media->original_name;
+
+                    $new_media->width = $width;
+                    $new_media->height = $height;
+                    $new_media->scale_type = $style;
+
+                    $new_media->original_id = $media->id;
+
+                    $new_media->size = $img->filesize();
+                    $new_media->save();
+
+                    $img->save(storage_path('app/media/'.$new_media->id));
+
+                    return response()->file(storage_path('app/media/'.$new_media->id));
                 }
             }
         }
 
     }
 
-    public function link()
+    public function link($width = false, $height = false, $style = false)
     {
+        if ($width && $height && $style)
+        {
+            return url("lbmedia/$this->id?width=$width&height=$height&style=$style");
+        }
         return url("lbmedia/$this->id");
     }
 
@@ -143,13 +177,6 @@ class Media extends Model
                 {
                     $media->created_by = Auth::user()->id;
                 }
-            }
-        });
-        Media::deleting(function ($media) {
-            Storage::delete('media/'.$media->id);
-            foreach ($media->caches as $m)
-            {
-                $m->delete();
             }
         });
     }
