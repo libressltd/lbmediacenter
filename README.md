@@ -29,8 +29,20 @@ php artisan storage:link
 // Save an uploaded file
 if ($request->hasFile("file"))
 {
-	Media::saveFile($request->file);
+	$media = Media::saveFile($request->file);
 }
+
+// Download file from internet
+
+$media = Media::download_file($url);
+
+// get image link
+// $style = "scale_to_fill" or "scale_to_fit"
+
+$media->link($width, $height, $style);
+
+// get file path
+$media->path();
 
 ```
 
