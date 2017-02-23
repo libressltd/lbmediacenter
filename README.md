@@ -18,6 +18,7 @@ LIBRESSLtd\LBMediaCenter\LBMediaCenterServiceProvider::class,
 
 php artisan vendor:publish --tag=lbmediacenter --force
 php artisan migrate
+php artisan storage:link
 
 ```
 
