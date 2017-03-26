@@ -105,12 +105,12 @@ class Media extends Model
                         if ($needed_ratio > $current_ratio)
                         {
                             $cutted_width = $img->width();
-                            $cutted_height = intval($cutted_width / $needed_ratio);
+                            $cutted_height = intval($cutted_width / $current_ratio);
                         }
                         else
                         {
                             $cutted_height = $img->height();
-                            $cutted_width = intval($cutted_height * $needed_ratio);
+                            $cutted_width = intval($cutted_height * $current_ratio);
                         }
                     }
                     $img->crop($cutted_width, $cutted_height);
