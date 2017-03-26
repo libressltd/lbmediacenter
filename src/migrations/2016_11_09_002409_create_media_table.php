@@ -27,7 +27,6 @@ class CreateMediaTable extends Migration
             $table->integer("height")->nullable();
             $table->string("scale_type")->nullable();
             $table->char("original_id", 32)->nullable();
-            
 
             $table->char('updated_by', 32)->nullable();
             $table->char('created_by', 32)->nullable();
