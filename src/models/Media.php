@@ -87,7 +87,7 @@ class Media extends Model
 
                     $cutted_width;
                     $cutted_height;
-                    if ($stype = "scale_to_fill")
+                    if ($style == "scale_to_fill")
                     {
                         if ($needed_ratio > $current_ratio)
                         {
@@ -102,17 +102,20 @@ class Media extends Model
                     }
                     else if ($stype = "scale_to_fit")
                     {
-                        if ($needed_ratio > $current_ratio)
+                        if ($needed_ratio < $current_ratio)
                         {
                             $cutted_width = $img->width();
                             $cutted_height = intval($cutted_width / $current_ratio);
+                            $height = intval($width / $current_ratio);
                         }
                         else
                         {
                             $cutted_height = $img->height();
                             $cutted_width = intval($cutted_height * $current_ratio);
+                            $width = intval($height * $current_ratio);
                         }
                     }
+
                     $img->crop($cutted_width, $cutted_height);
                     $img->resize($width, $height);
 
