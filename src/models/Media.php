@@ -49,6 +49,7 @@ class Media extends Model
 
         Storage::put('media/'.$media->id, $body);
         $media->update_image_info();
+        return $media;
     }
 
     public function update_image_info()
